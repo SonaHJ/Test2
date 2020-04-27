@@ -1,0 +1,59 @@
+<?xml version="1.1" encoding="UTF-8"?><rpt:ruleSet xmlns:rpt="rpt" genuid="3" configFileName="/TestPT/Tests/CorelateData.dcrules" version="7">
+  <arg:topLevelArgumentContainer xmlns:arg="arg:com.ibm.rational.test.lt.datacorrelation.rules"/>
+  <pass:full xmlns:pass="pass:com.ibm.rational.test.lt.datacorrelation.rules" uid="1" label="Existing Data Correlation">
+    <rul:createSubstitution xmlns:rul="rule:com.ibm.rational.test.lt.datacorrelation.rules" regexp="\?itinerary=(.*?)&amp;" uid="2" encoded="false">
+      <names>
+        <item>itinerary</item>
+      </names>
+      <attributes>
+        <item>req_uri</item>
+      </attributes>
+    </rul:createSubstitution>
+  </pass:full>
+  <pass:full xmlns:pass="pass:com.ibm.rational.test.lt.datacorrelation.rules" label="Accumulated Actions">
+    <rul:findSubstitution xmlns:rul="rule:com.ibm.rational.test.lt.datacorrelation.rules">
+      <cnd:substitutionName xmlns:cnd="condition:com.ibm.rational.test.lt.datacorrelation.rules" regexp="\Qitinerary\E(?:_\d+)?"/>
+      <pass:findDataSourceForSubstitution existingDataSourceBehavior="DO_NOTHING">
+        <rul:createDatapoolColumn datapoolPath="/TestPT/Datasets/PlaceLocation.csv" columnCreationAllowed="false" datapoolCreationAllowed="true" columnName="PlaceData">
+          <pass:linkDataSourceWithSubstitutions>
+            <rul:createSubstitution regexp="\?itinerary=(.*?)&amp;" encoded="false">
+              <names>
+                <item>Referer</item>
+              </names>
+              <attributes>
+                <item>req_content</item>
+                <item>req_hdr_Referer</item>
+              </attributes>
+            </rul:createSubstitution>
+            <rul:createSubstitution regexp="=https\%3A\%2F\%2Fwww\.makemytrip\.com\%2Fflight\%2Fsearch\%3Fitinerary\%3D(.*?)\%26tripType\%3DR\%26paxType\%3DA-1_C-0_I-0\%26intl\%3Dfalse\%26cabinClass\%3DE&amp;" encoded="true">
+              <names>
+                <item>g</item>
+              </names>
+              <attributes>
+                <item>req_uri</item>
+              </attributes>
+            </rul:createSubstitution>
+          </pass:linkDataSourceWithSubstitutions>
+        </rul:createDatapoolColumn>
+      </pass:findDataSourceForSubstitution>
+    </rul:findSubstitution>
+    <rul:removeSubstitution xmlns:rul="rule:com.ibm.rational.test.lt.datacorrelation.rules">
+      <cnd:and xmlns:cnd="condition:com.ibm.rational.test.lt.datacorrelation.rules">
+        <cnd:substitutionName regexp="\QReferer\E(?:_\d+)?"/>
+        <cnd:substitutionAttribute attributeName="req_hdr_Referer"/>
+      </cnd:and>
+    </rul:removeSubstitution>
+    <rul:removeSubstitution xmlns:rul="rule:com.ibm.rational.test.lt.datacorrelation.rules">
+      <cnd:and xmlns:cnd="condition:com.ibm.rational.test.lt.datacorrelation.rules">
+        <cnd:substitutionName regexp="\Qg\E(?:_\d+)?"/>
+        <cnd:substitutionAttribute attributeName="req_uri"/>
+      </cnd:and>
+    </rul:removeSubstitution>
+    <rul:removeSubstitution xmlns:rul="rule:com.ibm.rational.test.lt.datacorrelation.rules">
+      <cnd:and xmlns:cnd="condition:com.ibm.rational.test.lt.datacorrelation.rules">
+        <cnd:substitutionName regexp="\Qmeta_curr_url\E(?:_\d+)?"/>
+        <cnd:substitutionAttribute attributeName="req_content"/>
+      </cnd:and>
+    </rul:removeSubstitution>
+  </pass:full>
+</rpt:ruleSet>

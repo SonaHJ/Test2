@@ -1,0 +1,12 @@
+<?xml version="1.1" encoding="UTF-8"?><rpt:ruleSet xmlns:rpt="rpt" genuid="6" version="7">
+  <arg:topLevelArgumentContainer xmlns:arg="arg:com.ibm.rational.test.lt.datacorrelation.rules"/>
+  <pass:full xmlns:pass="pass:com.ibm.rational.test.lt.datacorrelation.rules" uid="1" label="Accumulated Actions">
+    <rul:createDatapoolColumn xmlns:rul="rule:com.ibm.rational.test.lt.datacorrelation.rules" datapoolPath="/TestPT/Datasets/PlaceLocation.csv" uid="2" columnCreationAllowed="false" datapoolCreationAllowed="false" columnName="PlaceDataNew">
+      <pass:linkDataSourceWithSubstitutions uid="3">
+        <rul:findSubstitution uid="4">
+          <cnd:substitutionName xmlns:cnd="condition:com.ibm.rational.test.lt.datacorrelation.rules" regexp="\Qit\E(?:_\d+)?" uid="5"/>
+        </rul:findSubstitution>
+      </pass:linkDataSourceWithSubstitutions>
+    </rul:createDatapoolColumn>
+  </pass:full>
+</rpt:ruleSet>
